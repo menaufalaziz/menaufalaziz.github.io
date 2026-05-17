@@ -1,14 +1,540 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>menaufalaziz</title>
-    <link href="css/style.css" rel="stylesheet">
-  </head>
-  <body>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pemanggil Tutor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <h1>Ini Naufal</h1>
-  
-  </body>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f4f4f0;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 2.5rem 1.5rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(99,102,241,0.15);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: 20%;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: rgba(20,184,166,0.12);
+    }
+
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(99,230,190,0.85);
+      margin-bottom: 0.5rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 0.4rem;
+    }
+    .hero-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.5rem;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 0.5px solid rgba(255,255,255,0.18);
+      border-radius: 12px;
+      padding: 11px 14px;
+    }
+    .search-bar i { color: rgba(255,255,255,0.4); font-size: 17px; }
+    .search-bar input {
+      background: none;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      flex: 1;
+    }
+    .search-bar input::placeholder { color: rgba(255,255,255,0.35); }
+
+    /* ── CONTENT ── */
+    .content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 1rem 5rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 1.5rem 0 0.75rem;
+    }
+    .section-title { font-size: 15px; font-weight: 500; color: #1a1a1a; }
+    .see-all { font-size: 13px; color: #6366f1; cursor: pointer; text-decoration: none; }
+
+    /* ── CHIPS ── */
+    .subject-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .subject-chips::-webkit-scrollbar { display: none; }
+
+    .chip {
+      flex-shrink: 0;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 400;
+      cursor: pointer;
+      border: 0.5px solid #d1d0c8;
+      background: #fff;
+      color: #555;
+      transition: all 0.15s;
+    }
+    .chip:hover { border-color: #6366f1; color: #6366f1; }
+    .chip.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+
+    /* ── BANNER ── */
+    .featured-banner {
+      background: linear-gradient(135deg, #312e81, #4f46e5);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .banner-icon {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .banner-icon i { font-size: 20px; color: #fff; }
+    .banner-text p:first-child { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 2px; }
+    .banner-text p:last-child  { font-size: 12px; color: rgba(255,255,255,0.6); }
+    .banner-arrow { margin-left: auto; color: rgba(255,255,255,0.5); font-size: 18px; }
+
+    /* ── TUTOR CARDS ── */
+    .tutor-grid { display: grid; gap: 12px; }
+
+    .tutor-card {
+      background: #fff;
+      border: 0.5px solid #e0ded8;
+      border-radius: 16px;
+      padding: 1rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .tutor-card:hover {
+      border-color: #a5b4fc;
+      box-shadow: 0 4px 16px rgba(99,102,241,0.1);
+    }
+
+    .avatar {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 500; font-size: 16px;
+      flex-shrink: 0;
+    }
+    .avatar.purple { background: #ede9fe; color: #7c3aed; }
+    .avatar.teal   { background: #ccfbf1; color: #0f766e; }
+    .avatar.coral  { background: #fee2e2; color: #b91c1c; }
+    .avatar.blue   { background: #dbeafe; color: #1d4ed8; }
+    .avatar.amber  { background: #fef3c7; color: #b45309; }
+    .avatar.green  { background: #dcfce7; color: #15803d; }
+
+    .tutor-info { flex: 1; min-width: 0; }
+    .tutor-name  { font-size: 15px; font-weight: 500; color: #1a1a1a; margin-bottom: 2px; }
+    .tutor-subj  { font-size: 12px; color: #777; margin-bottom: 6px; }
+
+    .tutor-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .rating { display: flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 500; color: #b45309; }
+    .rating i { font-size: 13px; color: #f59e0b; }
+
+    .tag {
+      font-size: 11px; padding: 2px 8px;
+      border-radius: 6px;
+      background: #f1efe8;
+      color: #666;
+    }
+    .tag.online  { background: #f0fdf4; color: #15803d; }
+    .tag.fav     { background: #fdf4ff; color: #7e22ce; }
+
+    .tutor-right {
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .price { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+    .price span { font-size: 11px; font-weight: 400; color: #888; }
+
+    .btn-req {
+      padding: 6px 14px;
+      background: #6366f1;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-req:hover { background: #4f46e5; }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-top: 0.5px solid #e0ded8;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 8px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      cursor: pointer; color: #999;
+      font-size: 10px;
+      transition: color 0.15s;
+    }
+    .nav-item.active { color: #6366f1; }
+    .nav-item:hover  { color: #6366f1; }
+    .nav-item i { font-size: 22px; }
+
+    /* ── MODAL OVERLAY ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 680px;
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    .modal-handle {
+      width: 36px; height: 4px;
+      background: #e0ded8; border-radius: 2px;
+      margin: 0 auto 1.2rem;
+    }
+
+    .modal-title { font-size: 17px; font-weight: 500; margin-bottom: 1rem; color: #1a1a1a; }
+
+    .modal-avatar {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;
+    }
+
+    .modal-info p { font-size: 13px; color: #777; margin-top: 2px; }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 1rem 0;
+    }
+    .slot {
+      padding: 8px;
+      text-align: center;
+      border: 0.5px solid #e0ded8;
+      border-radius: 10px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #555;
+      transition: all 0.12s;
+    }
+    .slot:hover, .slot.selected {
+      background: #6366f1; color: #fff; border-color: #6366f1;
+    }
+
+    .modal-footer {
+      display: flex; gap: 10px; margin-top: 1rem;
+    }
+    .btn-cancel {
+      flex: 1; padding: 12px;
+      border: 0.5px solid #e0ded8;
+      background: none; border-radius: 10px;
+      font-size: 14px; font-family: 'DM Sans', sans-serif;
+      cursor: pointer; color: #555;
+    }
+    .btn-confirm {
+      flex: 2; padding: 12px;
+      background: #6366f1; color: #fff;
+      border: none; border-radius: 10px;
+      font-size: 14px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-confirm:hover { background: #4f46e5; }
+
+    /* ── DARK MODE ── */
+    @media (prefers-color-scheme: dark) {
+      body { background: #111113; color: #f0ede6; }
+      .section-title, .tutor-name, .price { color: #f0ede6; }
+      .chip { background: #1c1c1e; border-color: #2e2e32; color: #aaa; }
+      .chip.active { background: #6366f1; color: #fff; }
+      .tutor-card { background: #1c1c1e; border-color: #2e2e32; }
+      .tutor-card:hover { border-color: #6366f1; box-shadow: 0 4px 16px rgba(99,102,241,0.2); }
+      .tag { background: #2a2a2e; color: #aaa; }
+      .bottom-nav { background: #1c1c1e; border-color: #2e2e32; }
+      .modal { background: #1c1c1e; }
+      .modal-title { color: #f0ede6; }
+      .modal-handle { background: #3a3a3e; }
+      .slot { border-color: #2e2e32; color: #bbb; background: #111; }
+      .btn-cancel { background: #111; color: #bbb; border-color: #2e2e32; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-label">Platform Belajar</p>
+    <h1 class="hero-title">Temukan Tutor<br>Terbaik Untukmu</h1>
+    <p class="hero-sub">3.200+ tutor berpengalaman siap membantu</p>
+    <div class="search-bar">
+      <i class="ti ti-search"></i>
+      <input type="text" placeholder="Cari tutor, mata pelajaran..." id="searchInput" oninput="filterTutors()" />
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <!-- Subject Chips -->
+    <div class="section-head">
+      <span class="section-title">Mata Pelajaran</span>
+    </div>
+    <div class="subject-chips" id="chips">
+      <div class="chip active" onclick="filterBySubject(this, 'semua')">Semua</div>
+      <div class="chip" onclick="filterBySubject(this, 'matematika')">Matematika</div>
+      <div class="chip" onclick="filterBySubject(this, 'fisika')">Fisika</div>
+      <div class="chip" onclick="filterBySubject(this, 'bahasa inggris')">Bahasa Inggris</div>
+      <div class="chip" onclick="filterBySubject(this, 'kimia')">Kimia</div>
+      <div class="chip" onclick="filterBySubject(this, 'biologi')">Biologi</div>
+      <div class="chip" onclick="filterBySubject(this, 'pemrograman')">Pemrograman</div>
+    </div>
+
+    <!-- Promo Banner -->
+    <div class="featured-banner">
+      <div class="banner-icon"><i class="ti ti-bolt"></i></div>
+      <div class="banner-text">
+        <p>Sesi Pertama Gratis!</p>
+        <p>Coba konsultasi tanpa bayar dulu</p>
+      </div>
+      <i class="ti ti-chevron-right banner-arrow"></i>
+    </div>
+
+    <!-- Tutor List -->
+    <div class="section-head" style="margin-top:1.5rem">
+      <span class="section-title">Tutor Populer</span>
+      <a class="see-all" href="#">Lihat semua</a>
+    </div>
+
+    <div class="tutor-grid" id="tutorGrid"></div>
+
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <div class="nav-item active"><i class="ti ti-home"></i><span>Beranda</span></div>
+    <div class="nav-item"><i class="ti ti-search"></i><span>Cari</span></div>
+    <div class="nav-item"><i class="ti ti-calendar"></i><span>Jadwal</span></div>
+    <div class="nav-item"><i class="ti ti-message"></i><span>Pesan</span></div>
+    <div class="nav-item"><i class="ti ti-user"></i><span>Profil</span></div>
+  </nav>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <p class="modal-title">Pilih Jadwal Sesi</p>
+      <div class="modal-avatar">
+        <div class="avatar" id="modalAvatar" style="width:48px;height:48px;border-radius:12px;font-size:15px;font-weight:500;"></div>
+        <div class="modal-info">
+          <p style="font-size:15px;font-weight:500;color:#1a1a1a;" id="modalName">—</p>
+          <p id="modalSubj">—</p>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#777;margin-bottom:4px;">Pilih waktu yang tersedia hari ini:</p>
+      <div class="time-slots">
+        <div class="slot" onclick="selectSlot(this)">08.00</div>
+        <div class="slot" onclick="selectSlot(this)">09.00</div>
+        <div class="slot" onclick="selectSlot(this)">10.00</div>
+        <div class="slot" onclick="selectSlot(this)">13.00</div>
+        <div class="slot" onclick="selectSlot(this)">14.00</div>
+        <div class="slot" onclick="selectSlot(this)">15.00</div>
+        <div class="slot" onclick="selectSlot(this)">16.00</div>
+        <div class="slot" onclick="selectSlot(this)">19.00</div>
+        <div class="slot" onclick="selectSlot(this)">20.00</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Batal</button>
+        <button class="btn-confirm" onclick="confirmBooking()">Konfirmasi Panggilan</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tutors = [
+      { init:'AR', color:'purple', name:'Arini Rahayu, S.Pd',   subj:'Matematika · Fisika',       tags:['matematika','fisika'],          rating:'4.9', sesi:'127', status:'online', price:'Rp 75K', fav:false },
+      { init:'BW', color:'teal',   name:'Budi Wijaya, M.Sc',    subj:'Kimia · Biologi',            tags:['kimia','biologi'],              rating:'4.8', sesi:'94',  status:'online', price:'Rp 90K', fav:false },
+      { init:'DS', color:'blue',   name:'Dewi Santika, B.Eng',  subj:'Pemrograman · Matematika',   tags:['pemrograman','matematika'],     rating:'5.0', sesi:'208', status:'online', price:'Rp 110K',fav:true  },
+      { init:'FR', color:'amber',  name:'Fahmi Rizaldi, Lc',    subj:'Bahasa Inggris · Arab',      tags:['bahasa inggris'],               rating:'4.7', sesi:'61',  status:'online', price:'Rp 65K', fav:false },
+      { init:'NP', color:'coral',  name:'Nadia Putri, M.Pd',    subj:'Fisika · Matematika',        tags:['fisika','matematika'],          rating:'4.9', sesi:'155', status:'offline',price:'Rp 85K', fav:false },
+      { init:'RH', color:'green',  name:'Rizky Hendra, S.Kom',  subj:'Pemrograman · Web Dev',      tags:['pemrograman'],                  rating:'4.6', sesi:'43',  status:'online', price:'Rp 95K', fav:false },
+    ];
+
+    let activeSubject = 'semua';
+
+    function renderTutors(list) {
+      const grid = document.getElementById('tutorGrid');
+      grid.innerHTML = '';
+      if (list.length === 0) {
+        grid.innerHTML = '<p style="color:#aaa;font-size:14px;text-align:center;padding:2rem 0;">Tutor tidak ditemukan.</p>';
+        return;
+      }
+      list.forEach((t, i) => {
+        const card = document.createElement('div');
+        card.className = 'tutor-card';
+        card.innerHTML = `
+          <div class="avatar ${t.color}">${t.init}</div>
+          <div class="tutor-info">
+            <p class="tutor-name">${t.name}</p>
+            <p class="tutor-subj">${t.subj}</p>
+            <div class="tutor-meta">
+              <span class="rating"><i class="ti ti-star-filled"></i> ${t.rating}</span>
+              <span class="tag">${t.sesi} sesi</span>
+              ${t.status === 'online' ? '<span class="tag online">● Online</span>' : '<span class="tag">● Offline</span>'}
+              ${t.fav ? '<span class="tag fav">Favorit</span>' : ''}
+            </div>
+          </div>
+          <div class="tutor-right">
+            <p class="price">${t.price} <span>/jam</span></p>
+            <button class="btn-req" onclick="openModal(${i})">Panggil</button>
+          </div>`;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterBySubject(el, subject) {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      activeSubject = subject;
+      applyFilter();
+    }
+
+    function filterTutors() { applyFilter(); }
+
+    function applyFilter() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = tutors.filter(t => {
+        const matchSubj = activeSubject === 'semua' || t.tags.some(tag => tag.includes(activeSubject));
+        const matchQ = q === '' || t.name.toLowerCase().includes(q) || t.subj.toLowerCase().includes(q);
+        return matchSubj && matchQ;
+      });
+      renderTutors(filtered);
+    }
+
+    // Modal
+    let selectedTutorIndex = -1;
+
+    function openModal(idx) {
+      selectedTutorIndex = idx;
+      const t = tutors[idx];
+      const av = document.getElementById('modalAvatar');
+      av.textContent = t.init;
+      av.className = 'avatar ' + t.color;
+      av.style.cssText = 'width:48px;height:48px;border-radius:12px;font-size:15px;font-weight:500;';
+      document.getElementById('modalName').textContent = t.name;
+      document.getElementById('modalSubj').textContent = t.subj;
+      document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+      document.getElementById('modal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+    }
+
+    function selectSlot(el) {
+      document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function confirmBooking() {
+      const slot = document.querySelector('.slot.selected');
+      if (!slot) { alert('Pilih jadwal terlebih dahulu.'); return; }
+      const t = tutors[selectedTutorIndex];
+      closeModal();
+      setTimeout(() => {
+        alert(`✅ Berhasil!\n\nSesi dengan ${t.name} dijadwalkan pukul ${slot.textContent} hari ini.\n\nTutor akan segera menghubungi Anda.`);
+      }, 200);
+    }
+
+    // Close modal on overlay click
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // Init
+    renderTutors(tutors);
+  </script>
+
+</body>
 </html>
